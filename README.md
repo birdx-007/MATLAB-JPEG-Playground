@@ -4,18 +4,16 @@
 
 环境：MATLAB R2021A
 
-## 文件目录清单
+## 主要文件目录清单
 
 | 文件/目录名称  | 功能                                         |
 | -------------- | -------------------------------------------- |
 | ./data/        | 存放输入/输出数据                            |
 | ./deprecated/  | 存放已弃用的性能较差的代码                   |
 | ./lib/jpeg/    | 存放JPEG算法函数，基础库（目前只支持灰度图） |
-| ./jpeg2music.m | 将JPEG图像文件解码为音频文件                 |
-| ./music2jpeg.m | 将音频文件压缩编码为JPEG图像文件             |
 | ./test.mlx     | 测试用                                       |
 
-## JPEG基础库函数接口文档-API doc
+## JPEG基础库接口文档  LIB-API doc
 
 ### zigzag8
 
@@ -196,3 +194,90 @@ matrix2D=jpeg2mat(filename)
 matrix2D	图像灰度值矩阵
 
 filename	输入JPEG文件的目录-文件名
+
+## 有趣小玩意儿接口文档  X-API doc
+
+### music2jpeg
+
+将音频文件压缩编码为JPEG图像文件。
+
+```matlab
+[matrix2D,fs]=music2jpeg(musicname,jpegname)
+```
+
+matrix2D	压缩前音频对应的灰度图矩阵
+
+fs	音频的采样频率
+
+musicname	音频文件目录-文件名
+
+jpegname	输出JPEG文件的目录-文件名
+
+### jpeg2music
+
+将JPEG图像文件解码为音频文件。
+
+```matlab
+music_J=jpeg2music(jpegname,musicname,fs)
+```
+
+music_J	解码所得音频，行向量
+
+jpegname	输入JPEG文件的目录-文件名
+
+musicname	输出音频文件目录-文件名
+
+fs	输出音频的采样频率
+
+### hideInJpeg_DCTall
+
+在DCT域将一段信息隐写入JPEG文件中（隐写法：用信息位逐一替换每个量化后DCT系数的最低位，再熵编码）。
+
+```matlab
+hideInJpeg_DCTall(secret,injpegname,outjpegname)
+```
+
+secret	待隐藏信息，字符串行向量
+
+injpegname	用于嵌密的JPEG图像文件的目录-文件名
+
+outjpegname	输出JPEG图像文件的目录-文件名
+
+### findInJpeg_DCTall
+
+在DCT域将信息从嵌密JPEG文件中提取（隐写法：用信息位逐一替换每个量化后DCT系数的最低位，再熵编码）。
+
+```matlab
+extract=findInJpeg_DCTall(jpegname)
+```
+
+extract	提取出的信息，字符串行向量
+
+jpegname	嵌密JPEG图像文件的目录-文件名
+
+### hideInJpeg_DCTascend
+
+在DCT域将一段信息隐写入JPEG文件中（隐写法：用信息位优先替换量化后DCT系数小的位置，再熵编码）。
+
+```matlab
+hideInJpeg_DCTascend(secret,injpegname,outjpegname)
+```
+
+secret	待隐藏信息，字符串行向量
+
+injpegname	用于嵌密的JPEG图像文件的目录-文件名
+
+outjpegname	输出JPEG图像文件的目录-文件名
+
+### findInJpeg_DCTascend
+
+在DCT域将信息从嵌密JPEG文件中提取（隐写法：用信息位优先替换量化后DCT系数小的位置，再熵编码）。
+
+```matlab
+extract=findInJpeg_DCTascend(jpegname)
+```
+
+extract	提取出的信息，字符串行向量
+
+jpegname	嵌密JPEG图像文件的目录-文件名
+
