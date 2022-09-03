@@ -15,6 +15,8 @@
 
 ## JPEG基础库接口文档  LIB-API doc
 
+目前只支持使用8*8量化表（即QTprecision=8）的灰度图（即只有1个颜色分量）。
+
 ### zigzag8
 
 针对8*8矩阵的之字形扫描。
@@ -121,7 +123,7 @@ code=jpegEntropyEncode(qResult,DCHT,ACHT)
 
 code	码流，与JPEG文件中使用码流格式一致
 
-qResult	量化结果，64*(块数) 矩阵
+qResult	量化结果，64*(块数) 矩阵，每列对应一块(8\*8)的量化结果
 
 DCHT	DC系数的Huffman码表
 
@@ -135,7 +137,7 @@ ACHT	AC系数的Huffman码表
 dResult=jpegEntropyDecode(code,DCHT,ACHT)
 ```
 
-dResult	熵解码结果，64*(块数) 矩阵
+dResult	熵解码结果，64*(块数) 矩阵，每列对应一块(8\*8)的量化结果
 
 code	码流，与JPEG文件中使用码流格式一致
 
@@ -145,7 +147,7 @@ ACHT	AC系数的Huffman码表
 
 ### jpegFileEncode
 
-将 64*(块数) 系数矩阵压缩编码为JPEG文件。
+将 64*(块数) 系数矩阵压缩编码为灰度JPEG文件。
 
 ```matlab
 jpegFileEncode(filename,qResult,info)
@@ -281,3 +283,6 @@ extract	提取出的信息，字符串行向量
 
 jpegname	嵌密JPEG图像文件的目录-文件名
 
+## 参考文献
+
+[JPEG文件解码 - 简书 (jianshu.com)](https://www.jianshu.com/p/c4ab7f92d0e1)
